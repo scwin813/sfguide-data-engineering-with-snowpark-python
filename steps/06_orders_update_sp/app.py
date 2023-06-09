@@ -13,7 +13,8 @@ from snowflake.snowpark import Session
 import snowflake.snowpark.functions as F
 
 
-def table_exists(session, schema='', name=''):
+def table_exists(session, schema='', name='', database = 'HOL_DB'):
+    _ = session.sql(f"USE DATABASE {database}").collect()
     exists = session.sql("SELECT EXISTS (SELECT * FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = '{}' AND TABLE_NAME = '{}') AS TABLE_EXISTS".format(schema, name)).collect()[0]['TABLE_EXISTS']
     return exists
 
